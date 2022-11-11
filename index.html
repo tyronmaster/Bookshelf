@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/icons/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -22,6 +23,21 @@
                 <h1 class="logo__top">Bookshelf</h1>
                 <div class="logo__bottom">store</div>
             </a>
+
+            <div class="search__section">
+                <input type="text" class="search__str" placeholder="search" tabindex="1" autocomplete="off" />
+
+                <button class="search__btn">
+                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M27.8 25L20.9 18.1C22.2 16.2 23 13.9 23 11.5C23 5.1 17.8 0 11.5 0C5.2 0 0 5.2 0 11.6C0 18 5.2 23.1 11.5 23.1C14 23.1 16.2 22.3 18.1 21L25 27.9C25.4 28.3 25.9 28.5 26.4 28.5C26.9 28.5 27.4 28.3 27.8 27.9C28.6 27 28.6 25.8 27.8 25ZM4 11.6C4 7.4 7.4 4 11.6 4C15.8 4 19.2 7.4 19.2 11.6C19.2 15.8 15.8 19.2 11.6 19.2C7.4 19.2 4 15.7 4 11.6Z"
+                            fill="#33CCFF" />
+                    </svg>
+                </button>
+
+                <button class="clear__btn">Clear search</button>
+            </div>
+
             <div class="cart">
                 <div class="cart__icon">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -49,6 +65,29 @@
             </div>
         </header>
         <main class="main container">
+            <aside class="aside">
+                <ul class="book__list">
+                    <li class="book__item"><a class="book__link" href="#">JavaScript</a></li>
+                    <li class="book__item"><a class="book__link" href="#">HTML</a></li>
+                    <li class="book__item"><a class="book__link" href="#">Poetry</a></li>
+                    <li class="book__item"><a class="book__link" href="#">Adventures</a></li>
+                    <li class="book__item"><a class="book__link" href="#">Fantasy</a></li>
+                    <li class="book__item"><a class="book__link" href="#">Detectives</a></li>
+                    <li class="book__item"><a class="book__link" href="#">Psychology</a></li>
+                </ul>
+            </aside>
+            <section class="toprated"></section>
+            <section class="library">
+                <ul class="library__list">
+                    <li class="library__item"></li>
+                    <li class="library__item"></li>
+                    <li class="library__item"></li>
+                    <li class="library__item"></li>
+                    <li class="library__item"></li>
+                    <li class="library__item"></li>
+                    <li class="library__item"></li>
+                </ul>
+            </section>
 
         </main>
         <footer class="footer container">
