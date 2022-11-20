@@ -25,7 +25,7 @@ function loader() {
 // FUNCTION GETS DATA FROM API and DRAW books SECTION CONTENT
 function getBooksData(element) {
   const { title } = element.volumeInfo;
-  const author = element.volumeInfo.authors[0];
+  const author = element.volumeInfo.authors;
   const { thumbnail } = element.volumeInfo.imageLinks;
   const priceNum = element.saleInfo.listPrice.amount;
   const priceCur = element.saleInfo.listPrice.currencyCode;
@@ -90,42 +90,35 @@ function drawContent(url) {
       }, 1500);
     });
 }
-
-// fetch(basicURL + searchSrting + restParams + API_KEY)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     // eslint-disable-next-line no-console
-//     console.log(result);
-//   });
 /* book SECTION CONTENT BUILDER ---------------------------------------------------------- */
 
 window.onload = () => {
   searchBox.focus();
-
-  // getApiData(URL);
   drawContent(URL); // content for books section
 };
 
 // function dragAndDrop(element, target){
 
 // }
+function changeContent(e) {
+  if (searchBox.value !== "") {
+    URL = basicURL + e.target.value + restParams + API_KEY;
+    // console.log(this);
+    // console.log(URL);
+    drawContent(URL);
+    searchBox.value = "";
+    clearButton.classList.remove("active");
+    searchButton.classList.remove("active");
+  }
+}
 
 // ON PRESS ENTER ON INPUT ACTION
-searchBox.addEventListener("change", () => {
-  URL = basicURL + this.value + restParams + API_KEY;
-  drawContent(URL);
-});
+searchBox.addEventListener("change", changeContent);
 
 // BUTTON SEARCH ACTION
-searchButton.addEventListener("click", () => {
-  if (searchBox.value !== "") {
-    URL = basicURL + this.value + restParams + API_KEY;
-    drawContent(URL);
-    // console.log(url);
-  }
-});
+searchButton.addEventListener("click", changeContent);
 // ON INPUT CHANGE FOCUS
-searchBox.addEventListener("input", () => {
+searchBox.addEventListener("input", function () {
   if (this.value !== "") {
     clearButton.classList.add("active");
     searchButton.classList.add("active");
@@ -134,7 +127,7 @@ searchBox.addEventListener("input", () => {
     searchButton.classList.remove("active");
   }
 });
-clearButton.addEventListener("click", () => {
+clearButton.addEventListener("click", function () {
   searchBox.value = "";
   this.classList.remove("active");
   searchButton.classList.remove("active");
