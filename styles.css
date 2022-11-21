@@ -281,8 +281,51 @@ textarea:focus {
   padding: 5px;
 }
 .cart__icon {
+  position: relative;
   width: 35px;
   height: auto;
+}
+.cart.hover svg path {
+  fill: lightgray;
+  transition: 1s;
+}
+.cart:hover svg path {
+  fill: lightgray;
+  transition: 1s;
+}
+.cart.hover .cart__amount,
+.cart.hover .cart__currency,
+.cart:hover .cart__amount,
+.cart:hover .cart__currency {
+  color: lightgray;
+  transition: 1s;
+}
+.cart.hover .cart__count,
+.cart:hover .cart__count {
+background: lightgray;
+transition: 1s;
+
+}
+.cart__count {
+  position: absolute;
+  font-size: 10px;
+  line-height: 10px;
+  top: 10px;
+  left: -10px;
+  width: 15px;
+  height: 15px;
+  padding: 2px;
+  background: black;
+  border-radius: 50%;
+  color: white;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s ease-in-out;
+}
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s ease-in-out;
 }
 
 .main {
@@ -331,8 +374,8 @@ textarea:focus {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin: 10px;
-  padding: 15px;
+  /* margin: 10px;
+  padding: 15px; */
   /* border-radius: 12px; */
   /* text-align: center; */
   /* background: white; */
@@ -344,6 +387,8 @@ textarea:focus {
 }
 .library__item {
   display: flex;
+  max-width: 430px;
+  flex: 1 1 auto;
   margin: 10px;
   background: white;
   cursor: pointer;
@@ -433,6 +478,9 @@ textarea:focus {
   .header__inner {
     justify-content: center;
   }
+  .library__item {
+    flex-wrap: wrap;
+  }
   /* .search__str{
     width: 150px;
   } */
@@ -492,7 +540,7 @@ textarea:focus {
   width: 5px;
   height: 5px;
   border-radius: 5px;
-  background: #fff; /* Pick a color */
+  background: lightgray; /* Pick a color */
 }
 .loader .circle:nth-child(2) {
   animation-delay: 240ms;
