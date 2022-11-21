@@ -295,7 +295,7 @@ function drawContent(url) {
 window.onload = () => {
   searchBox.focus();
   // UNCOMMENT WHEN DONE ALERT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // drawContent(URL); // content for books section
+  drawContent(URL); // content for books section
 };
 
 // function dragAndDrop(element, target){
