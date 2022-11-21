@@ -31,8 +31,9 @@ function drawElement(elementParent, elementType, elementClasslist) {
 }
 
 // DRAW PAGE SECTION ==================
-drawElement("body", "div", "wrapper");
-drawElement("wrapper", "header", "header");
+const body = document.querySelector("body");
+const wrapper = drawElement(body, "div", "wrapper");
+drawElement(wrapper, "header", "header");
 const headerContainer = drawElement("header", "div", "header__inner container");
 const headerLogo = drawElement(headerContainer, "a", "logo");
 headerLogo.innerHTML = `<h1 class="logo__top">Bookshelf</h1>
@@ -82,11 +83,11 @@ const cartCurrency = drawElement(cartContainer, "div", "cart__currency");
 cartAmount.textContent = "0.00";
 cartCurrency.textContent = "$";
 
-const main = drawElement("wrapper", "main", "main");
+const main = drawElement(wrapper, "main", "main");
 const aside = drawElement(main, "aside", "aside container");
 const bookList = drawElement(aside, "ul", "book__list");
 const booksTypesButtons = [];
-const bookTypes = ["JavaScript", "HTML", "Poetry", "Adventures", "Fantasy", "Detectives", "Psychology"];
+const bookTypes = ["JavaScript", "HTML", "Poetry", "Adventures", "Nature", "Detective", "Psychology"];
 for (let i = 0; i < bookTypes.length; i += 1) {
   const bookButton = drawElement(bookList, "li", "book__item");
   bookButton.innerHTML = `<a class="button" href="#">${bookTypes[i]}</a>`;
@@ -96,12 +97,16 @@ for (let i = 0; i < bookTypes.length; i += 1) {
 const library = drawElement(main, "section", "library container");
 const booksContainer = drawElement(library, "ul", "library__list");
 const booksToDrag = [];
+const addToCartButtons = [];
+const quickViewButtons = [];
 const booksData = {};
 
-const footer = drawElement("wrapper", "footer", "footer");
+const footer = drawElement(wrapper, "footer", "footer");
 footer.innerHTML = `<a class="github__link" href="https://github.com/tyronmaster?tab=repositories">github</a>
   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
   <a class="rsschool__link" href="https://rs.school/">rs.school 2022 ©</a>`;
+
+const popup = drawElement(wrapper, "div", "popup");
 
 // DRAW PAGE SECTION ENDS ==============
 
@@ -119,7 +124,7 @@ function loader() {
 // FUNCTION GETS DATA FROM API and DRAW books SECTION CONTENT
 function getBooksData(element, index) {
   const { title } = element.volumeInfo;
-  const author = element.volumeInfo.authors;
+  const author = element.volumeInfo.authors["0"];
   const { thumbnail } = element.volumeInfo.imageLinks;
   const priceNum = element.saleInfo.listPrice.amount;
   const priceCur = element.saleInfo.listPrice.currencyCode;
@@ -144,12 +149,11 @@ function getBooksData(element, index) {
   quickView.dataset.index = index;
   quickView.href = "#";
   quickView.textContent = "Quick View";
-  quickView.addEventListener("click", (e) => {
-    console.log(e.currentTarget.dataset.index);
-  });
+
   const addtoCart = drawElement(elementButtons, "a", "addtocart button");
   addtoCart.href = "#";
   addtoCart.textContent = "Add to Cart";
+  addtoCart.dataset.index = index;
 
   // REFACTOR >> Need to join this object with variables
   booksData[index] = {};
@@ -160,6 +164,8 @@ function getBooksData(element, index) {
   booksData[index].priceCur = priceCur;
   booksData[index].description = description;
 
+  quickViewButtons.push(quickView);
+  addToCartButtons.push(addtoCart);
   booksToDrag.push(book);
   // booksContainer.innerHTML += book;
 }
@@ -196,6 +202,51 @@ const dragAndDrop = () => {
   cartContainer.addEventListener("dragenter", dragEnter);
   cartContainer.addEventListener("dragleave", dragLeave);
   cartContainer.addEventListener("drop", dragDrop);
+
+  addToCartButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      itemIndex = e.currentTarget.dataset.index;
+      cartData.push(booksData[itemIndex]);
+      price += Number(booksData[itemIndex].priceNum.toFixed(2));
+      cartAmount.textContent = Math.floor(price * 100) / 100;
+      cartCurrency.textContent = booksData[itemIndex].priceCur;
+      cartItemsCount.classList.remove("hidden");
+      cartItemsCount.textContent = cartData.length;
+    });
+  });
+
+  quickViewButtons.forEach((button) => button.addEventListener("click", (e) => {
+    const currentIndex = e.currentTarget.dataset.index;
+    console.log(booksData[currentIndex]);
+    popup.classList.add("active");
+    body.classList.add("lock");
+    popup.innerHTML = ` <div class="popup__container">
+                      <div class="popup__picture">
+                          <img class="popup__image" src="${booksData[currentIndex].thumbnail}" alt="item image">
+                      </div>
+                      <div class="popup__content">
+                        <h2 class="popupm__title">${booksData[currentIndex].title}</h2>
+                        <h3 class="popup__author">${booksData[currentIndex].author}</h3>
+                        <p class="popup__description">${booksData[currentIndex].description}</p>
+                        <div class="popup__price">
+                          <p class="price__amount">${booksData[currentIndex].priceNum}</p>
+                          <p class="price__currency">${booksData[currentIndex].priceCur}</p>
+                        </div>
+                        <div class="close__button">
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                      </div>`;
+  }));
+  popup.addEventListener("click", (e) => {
+    if (e.target.classList.contains("popup") || e.currentTarget.classList.contains("close__button")) {
+      console.log(e.currentTarget);
+      popup.classList.remove("active");
+      body.classList.remove("lock");
+    }
+  });
 };
 // result >> cartData = array of added books; price = total cart price;
 // DRAG & Drop section ends ------------------------
@@ -244,7 +295,7 @@ function drawContent(url) {
 window.onload = () => {
   searchBox.focus();
   // UNCOMMENT WHEN DONE ALERT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // drawContent(URL); // content for books section
+  drawContent(URL); // content for books section
 };
 
 // function dragAndDrop(element, target){
