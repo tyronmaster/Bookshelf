@@ -21,6 +21,10 @@ body {
   /* background: orange; */
 }
 
+.lock {
+  overflow: hidden;
+}
+
 aside,
 nav,
 footer,
@@ -122,6 +126,7 @@ textarea:focus {
 }
 
 .wrapper {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -302,9 +307,8 @@ textarea:focus {
 }
 .cart.hover .cart__count,
 .cart:hover .cart__count {
-background: lightgray;
-transition: 1s;
-
+  background: lightgray;
+  transition: 1s;
 }
 .cart__count {
   position: absolute;
@@ -471,6 +475,120 @@ transition: 1s;
   justify-content: center;
 }
 
+.popup {
+  display: none;
+}
+.popup.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+.popup__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90vh;
+  background: white;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.popup__picture {
+  width: 200px;
+  height: auto;
+  flex: 1 0 auto;
+}
+.popup__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.popup__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+  /* max-width: 300px; */
+}
+.popup__title {
+  font-size: 18px;
+  line-height: 24px;
+  /* padding: 0;
+  margin: 0; */
+  max-width: 200px;
+  margin-bottom: 10px;
+}
+.popup__author {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+.popup__description {
+  font-weight: 300;
+  font-size: 16px;
+  max-height: 300px;
+  overflow: hidden;
+  /* display: none; */
+}
+.popup__price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  flex: 1 0 auto;
+  /* flex-wrap: wrap; */
+}
+.popup__amount {
+  margin-right: 10px;
+}
+.popup__currency {
+}
+.close__button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 15px;
+  cursor: pointer;
+  z-index: 10;
+  transform: rotate(0);
+  transition: 0.5s ease-in-out;
+}
+.close__button span {
+  width: 20px;
+  height: 2px;
+  background: black;
+  display: block;
+}
+.close__button:hover {
+  transform: rotate(360deg);
+  transition: 0.5s ease-in-out;
+}
+.close__button:hover span {
+  background: lightgray;
+  transition: 0.5s ease-in-out;
+}
+.close__button span:first-child {
+  transform: rotate(-45deg) translate(-1px, 1px);
+}
+.close__button span:last-child {
+  transform: rotate(45deg);
+}
+.popup.active {
+  display: flex;
+}
+
 @media screen and (max-width: 550px) {
   .header {
     min-height: 150px;
@@ -486,6 +604,10 @@ transition: 1s;
   } */
   .main {
     margin-top: 150px;
+  }
+  .popup__description {
+    /* font-size: 12px; */
+    max-height: 100px;
   }
 }
 @media screen and (max-width: 390px) {
