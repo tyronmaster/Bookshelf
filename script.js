@@ -239,14 +239,20 @@ const dragAndDrop = () => {
                         </div>
                       </div>
                       </div>`;
-  }));
-  popup.addEventListener("click", (e) => {
-    if (e.target.classList.contains("popup") || e.currentTarget.classList.contains("close__button")) {
-      console.log(e.currentTarget);
+
+    const closeButton = document.querySelector(".close__button");
+    closeButton.addEventListener("click", () => {
       popup.classList.remove("active");
       body.classList.remove("lock");
-    }
-  });
+    });
+    popup.addEventListener("click", (e) => {
+      if (e.target.classList.contains("popup")) {
+        // console.log(e.target);
+        popup.classList.remove("active");
+        body.classList.remove("lock");
+      }
+    });
+  }));
 };
 // result >> cartData = array of added books; price = total cart price;
 // DRAG & Drop section ends ------------------------
@@ -295,12 +301,9 @@ function drawContent(url) {
 window.onload = () => {
   searchBox.focus();
   // UNCOMMENT WHEN DONE ALERT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  drawContent(URL); // content for books section
+  // drawContent(URL); // content for books section
 };
 
-// function dragAndDrop(element, target){
-
-// }
 function changeContent(e) {
   if (searchBox.value !== "") {
     URL = basicURL + e.target.value + restParams + API_KEY;
