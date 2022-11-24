@@ -163,6 +163,7 @@ function getBooksData(element, index) {
   booksData[index].priceNum = priceNum;
   booksData[index].priceCur = priceCur;
   booksData[index].description = description;
+  booksData[index].cartCount = 0;
 
   quickViewButtons.push(quickView);
   addToCartButtons.push(addtoCart);
@@ -171,7 +172,8 @@ function getBooksData(element, index) {
 }
 
 // DRAG & DROP section ++++++++++++++++++++++++++++
-const cartData = [];
+const cartData = {};
+let totalCartCount = 0;
 let price = 0;
 const dragAndDrop = () => {
   // const bookToDrag = document.querySelectorAll(".library__item");
@@ -184,19 +186,22 @@ const dragAndDrop = () => {
   const dragOver = function (e) {
     e.preventDefault();
   };
-  const dragEnter = function () {
+  const dragEnter = function (e) {
+    e.preventDefault();
     cartContainer.classList.add("hover");
   };
   const dragLeave = function () {
     cartContainer.classList.remove("hover");
   };
   const dragDrop = function () {
-    cartData.push(booksData[itemIndex]);
+    booksData[itemIndex].cartCount += 1;
     price += Number(booksData[itemIndex].priceNum.toFixed(2));
-    cartAmount.textContent = price;
+    cartAmount.textContent = Math.floor(price * 100) / 100;
     cartCurrency.textContent = booksData[itemIndex].priceCur;
     cartItemsCount.classList.remove("hidden");
-    cartItemsCount.textContent = cartData.length;
+    totalCartCount += 1;
+    cartItemsCount.textContent = totalCartCount;
+    ;
   };
   cartContainer.addEventListener("dragover", dragOver);
   cartContainer.addEventListener("dragenter", dragEnter);
@@ -207,18 +212,19 @@ const dragAndDrop = () => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       itemIndex = e.currentTarget.dataset.index;
-      cartData.push(booksData[itemIndex]);
+      booksData[itemIndex].cartCount += 1;
       price += Number(booksData[itemIndex].priceNum.toFixed(2));
       cartAmount.textContent = Math.floor(price * 100) / 100;
       cartCurrency.textContent = booksData[itemIndex].priceCur;
       cartItemsCount.classList.remove("hidden");
-      cartItemsCount.textContent = cartData.length;
+      totalCartCount += 1;
+      cartItemsCount.textContent = totalCartCount;
     });
   });
 
   quickViewButtons.forEach((button) => button.addEventListener("click", (e) => {
     const currentIndex = e.currentTarget.dataset.index;
-    console.log(booksData[currentIndex]);
+    // console.log(booksData[currentIndex]);
     popup.classList.add("active");
     body.classList.add("lock");
     popup.innerHTML = ` <div class="popup__container">
@@ -255,6 +261,7 @@ const dragAndDrop = () => {
   }));
 };
 // result >> cartData = array of added books; price = total cart price;
+// UPDATE result >> booksData[index].cartCount shows count of added to cart books
 // DRAG & Drop section ends ------------------------
 
 // FUNCTION GETS books DATA FROM API BY ***ANY**** URL and DRAW books SECTION CONTENT
@@ -301,7 +308,7 @@ function drawContent(url) {
 window.onload = () => {
   searchBox.focus();
   // UNCOMMENT WHEN DONE ALERT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // drawContent(URL); // content for books section
+  drawContent(URL); // content for books section
 };
 
 function changeContent(e) {
