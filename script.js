@@ -378,14 +378,68 @@ cartContainer.addEventListener("mouseenter", (e) => {
     }
   }
 
-  console.log(cartItems);
+  // console.log(cartItems);
   if (cartItems.length > 0) {
     cartPopup.classList.remove("hide");
     const totalPrice = drawElement(cartPopup, "div", "cart__popup-price");
-    totalPrice.innerHTML = `<p>Total price:</p><p>${price}</p><p>${cartItems[0].priceCur}</p>`
+    totalPrice.innerHTML = `<p>Total price:</p><p>${price}</p><p>${cartItems[0].priceCur}</p>`;
     const cartSubmit = drawElement(cartPopup, "a", "button__checkout button");
     cartSubmit.textContent = "Checkout";
     body.classList.add("lock");
+    cartSubmit.addEventListener("click", (e) => {
+      booksContainer.style.display = "none";
+      const form = drawElement(library, "form", "form__container");
+
+      form.innerHTML = `<label for="name">Name</label>
+                          <input class="name" id="name" type="text" placeholder="Name" minlength="3" required>
+                        <label for="surname">Surname</label>
+                          <input class="surname" id="surname" type="text" placeholder="Surname" minlength="3" required><br>
+                        <label for="date">Choose date</label>
+                          <input type="date" id="date" required><br>
+                        <label for="street">Street</label>
+                          <input class="street" id="street" type="text" placeholder="Street" minlength="3" required><br>
+                        <label for="building">Building</label>
+                          <input class="building" id="building" type="text" placeholder="Building" minlength="3" required>
+                        <label for="room">Room</label>
+                          <input class="room" id="room" type="text" placeholder="Room">
+                        <fieldset>
+                          <legend>Select a payment:</legend>
+                          <div>
+                            <input type="radio" id="cart" name="payment" value="cart" checked>
+                            <label for="cart">Cart</label>
+                          </div>
+                          <div>
+                            <input type="radio" id="cash" name="payment" value="cash">
+                            <label for="cash">Cash</label>
+                          </div>
+                        </fieldset>
+                        <fieldset>
+                        <legend>Select a gift:</legend>
+                        <div>
+                          <input type="checkbox" id="pack" name="pack" checked>
+                          <label for="pack">Pack as a gift</label>
+                        </div>
+                        <div>
+                          <input type="checkbox" id="postcard" name="postcard" checked>
+                          <label for="postcard">Add postcard</label>
+                        </div>
+                        <div>
+                          <input type="checkbox" id="discount" name="discount">
+                          <label for="discount">Add 5% discount to the next order</label>
+                        </div>
+                          <input type="checkbox" id="brand" name="brand">
+                          <label for="brand">Branded T-shirt</label>
+                        </div>
+                      </fieldset>
+        `;
+
+      const nameInput = document.querySelector(".name");
+      // console.log(nameInput);
+
+      const confirmButton = drawElement(library, "button", "confirm button");
+      confirmButton.disabled = true;
+      confirmButton.textContent = "Confirm order";
+    });
   }
 });
 cartContainer.addEventListener("mouseleave", () => {
