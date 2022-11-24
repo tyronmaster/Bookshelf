@@ -426,7 +426,8 @@ textarea:focus {
   font-weight: 400;
   transition: 0.5s ease-in-out;
 }
-.button:hover {
+.button:hover,
+.button:disabled {
   border: 1px solid lightgrey;
   transition: 0.5s ease-in-out;
 }
@@ -437,10 +438,11 @@ textarea:focus {
 }
 
 .library {
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly; */
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  /* justify-content: space-evenly; */
+  align-items: center;
 }
 .library__list {
   flex: 1 1 auto;
@@ -535,6 +537,30 @@ textarea:focus {
 }
 .addtocart {
   margin: 5px;
+}
+
+.form__container{
+  max-width: 600px;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 300;
+  /* display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; */
+  padding: 15px;
+}
+.form__container input {
+  max-width: 200px;
+  padding: 5px;
+  margin: 5px;
+}
+.building,
+.room{
+  width: 100px;
+}
+.form__container fieldset{
+  padding: 10px;
+  margin: 15px 0;
 }
 
 .footer {
