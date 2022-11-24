@@ -82,6 +82,7 @@ const cartAmount = drawElement(cartContainer, "div", "cart__amount");
 const cartCurrency = drawElement(cartContainer, "div", "cart__currency");
 cartAmount.textContent = "0.00";
 cartCurrency.textContent = "$";
+const cartPopup = drawElement(cartContainer, "div", "cart__popup hide");
 
 const main = drawElement(wrapper, "main", "main");
 const aside = drawElement(main, "aside", "aside container");
@@ -106,7 +107,7 @@ footer.innerHTML = `<a class="github__link" href="https://github.com/tyronmaster
   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
   <a class="rsschool__link" href="https://rs.school/">rs.school 2022 ©</a>`;
 
-const popup = drawElement(wrapper, "div", "popup");
+const popup = drawElement(wrapper, "div", "popup hide");
 
 // DRAW PAGE SECTION ENDS ==============
 
@@ -172,7 +173,7 @@ function getBooksData(element, index) {
 }
 
 // DRAG & DROP section ++++++++++++++++++++++++++++
-const cartData = {};
+// const cartData = {};
 let totalCartCount = 0;
 let price = 0;
 const dragAndDrop = () => {
@@ -201,7 +202,6 @@ const dragAndDrop = () => {
     cartItemsCount.classList.remove("hidden");
     totalCartCount += 1;
     cartItemsCount.textContent = totalCartCount;
-    ;
   };
   cartContainer.addEventListener("dragover", dragOver);
   cartContainer.addEventListener("dragenter", dragEnter);
@@ -350,4 +350,46 @@ clearButton.addEventListener("click", function () {
   searchBox.value = "";
   this.classList.remove("active");
   searchButton.classList.remove("active");
+});
+
+cartContainer.addEventListener("mouseenter", (e) => {
+  e.preventDefault();
+  const cartItems = [];
+  for (let i = 0; i < Object.keys(booksData).length; i += 1) {
+    if (booksData[i].cartCount > 0) {
+      const popupClose = document.createElement("div");
+      popupClose.classList.add("cart__popup-close");
+      popupClose.innerHTML = "<span>X</span>";
+      cartItems.push(booksData[i]); // optional TODO check whether it necessary
+      cartPopup.innerHTML += `
+      <div class="cart__popup-item">
+        <img src="${booksData[i].thumbnail}">
+        <div class="cart__popup-title">
+          <h2>${booksData[i].title}</h2>
+          <h3>${booksData[i].author}</h3>
+          <p>${booksData[i].priceNum} ${booksData[i].priceCur}</p>
+        </div>
+        <input placeholder="" value="${booksData[i].cartCount}">
+        <div class="cart__popup-close">
+        <span>X</span>
+        </div>
+      </div>
+      `;
+    }
+  }
+
+  console.log(cartItems);
+  if (cartItems.length > 0) {
+    cartPopup.classList.remove("hide");
+    const totalPrice = drawElement(cartPopup, "div", "cart__popup-price");
+    totalPrice.innerHTML = `<p>Total price:</p><p>${price}</p><p>${cartItems[0].priceCur}</p>`
+    const cartSubmit = drawElement(cartPopup, "a", "button__checkout button");
+    cartSubmit.textContent = "Checkout";
+    body.classList.add("lock");
+  }
+});
+cartContainer.addEventListener("mouseleave", () => {
+  cartPopup.classList.add("hide");
+  cartPopup.innerHTML = "";
+  body.classList.remove("lock");
 });
